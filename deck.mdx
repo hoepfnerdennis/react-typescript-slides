@@ -1,0 +1,201 @@
+import t from './theme'
+import { Header, Footer, Image } from 'mdx-deck'
+
+export const theme = t
+
+<div style={{ position: 'absolute', top: '6%' }}>
+    <h1 style={{ backgroundColor: 'white', padding: '20px', borderRadius: '10px', boxShadow: 'rgba(0, 0, 0, 0.5) 0px 0px 20px 10px' }}>
+        Strikte Typisierung mit&nbsp;
+        <span style={{ color: '#61dafb' }}>
+            &lt;React /&gt;
+        </span> 
+        &nbsp;und&nbsp;
+        <span style={{ color: '#3178c6' }}>
+            Typescript.ts 
+        </span>
+    </h1>
+</div>
+
+<Image src="https://media.giphy.com/media/4JVTF9zR9BicshFAb7/giphy.gif" />
+
+---
+
+# theme 💅
+
+---
+
+## theme = any 😰
+
+```typescript
+interface Props {
+    theme: any;
+    prop: string;
+}
+
+const style = ({ theme, prop }: Props) => ({ ... })
+```
+
+---
+
+## ThemeProps 🥳
+
+```typescript
+interface Props {
+    theme: ThemeProps;
+    prop: string;
+}
+
+const style = ({ theme, prop }: Props) => ({ ... })
+```
+
+---
+
+## oder noch besser 🚀
+
+```typescript
+// themeUtils.ts
+type WithTheme<P = {}> = P & { theme: ThemeProps }
+
+// component.ts
+interface Props {
+    prop: string;
+}
+
+const style = ({ theme, prop }: WithTheme<Props>) => ({ ... })
+```
+
+---
+
+## Index signature 🧬
+
+```typescript
+interface Colors {
+    background: string;
+    border: string;
+}
+const colors: Colors = {
+    background: 'color5',
+    border: 'color4',
+}
+const style = ({ theme }: WithTheme) => ({
+    backgroundColor: theme.palette[background].hex,
+    borderColor: theme.palette[border].hex,
+})
+```
+
+---
+
+## Index signature 🧬
+
+```typescript
+interface Colors {
+    background: keyof PaletteProps;
+    border: keyof PaletteProps;
+}
+const colors: Colors = {
+    background: 'color5',
+    border: 'color4',
+}
+const style = ({ theme }: WithTheme) => ({
+    backgroundColor: theme.palette[background].hex,
+    borderColor: theme.palette[border].hex,
+})
+```
+
+---
+
+# other props 🕵🏻‍♂️
+
+```typescript
+interface ButtonProps {
+    dmId: string;
+    variant: "default" | "small" | "large";
+    [otherProp: string]: any;
+}
+```
+
+---
+
+## Echte Props 🦄
+
+```typescript
+interface DmButtonProps {
+    dmId: string;
+    variant: "default" | "small" | "large";
+}
+
+type ButtonProps = DmButtonProps & 
+        Omit<React.ComponentProps<'button'>, keyof DmButtonProps>;
+```
+
+---
+
+## children 👶
+
+❌
+```typescript
+interface Props {
+    name: string;
+    children: object | string | any;
+}
+```
+
+---
+
+## children 👶
+
+✅
+```typescript
+interface Props {
+    name: string;
+    children: React.ReactNode | JSX.Element;
+}
+```
+
+```typescript
+type Props = React.PropsWithChildren<{ name: string }>
+```
+
+---
+
+## Abhängige Props 👬
+
+```typescript
+interface CommonProps {
+    children: React.ReactNode
+}
+type TruncateProps =
+    | { truncate?: false, showExpanded: undefined }
+    | { truncate: true, showExpanded?: boolean }
+type Props = CommonProps & TruncateProps
+
+const Text = (props: Props) => {
+    // props.truncate = boolean | undefined
+    // props.showExpanded = boolean | undefined
+}
+```
+
+---
+
+## Generics 🏗
+
+```typescript
+interface Props<T> {
+    items: T[]
+    children: (item: T) => React.ReactNode
+}
+const List = <T,>({ items, children }: Props<T>) => (
+    <ul>
+        {items.map(item => (
+            <li key={item}>
+                {children(item)}
+            </li>
+        ))}
+    </ul>
+)
+```
+
+---
+
+<Image src="https://media.giphy.com/media/l4pTjOu0NsrLApt0Q/giphy.gif" />
+

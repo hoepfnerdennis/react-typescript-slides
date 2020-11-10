@@ -158,6 +158,21 @@ type Props = React.PropsWithChildren<{ name: string }>
 
 ---
 
+## Events Beispiele
+
+```typescript
+type selectChangeEvent = React.ChangeEvent<HTMLSelectElement>
+type buttonKeyDownEvent = React.KeyboardEvent<HTMLButtonElement>
+type buttonClickEvent = React.MouseEvent<HTMLButtonElement, MouseEvent>
+```
+
+```jsx
+const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {...}
+<button onClick={handleClick}>Klick mich!</button>
+```
+
+---
+
 ## Abhängige Props 👬
 
 ```typescript

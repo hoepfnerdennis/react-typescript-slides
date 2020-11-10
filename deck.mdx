@@ -199,3 +199,47 @@ const List = <T,>({ items, children }: Props<T>) => (
 
 <Image src="https://media.giphy.com/media/l4pTjOu0NsrLApt0Q/giphy.gif" />
 
+---
+
+# Weiteres
+
+---
+
+## Statemanagement (action) 🦸‍♀️
+
+```typescript
+enum Actions {
+  ADD,
+  EDIT,
+  REMOVE
+}
+
+type Action =
+  | { type: Actions.ADD; user: User }
+  | { type: Actions.EDIT; id: string; user: User }
+  | { type: Actions.REMOVE; id: string }
+```
+
+---
+
+## Statemanagement (reducer) 🤴
+
+```typescript
+interface State {
+    users: Record<string, User>
+}
+
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case Actions.ADD:
+      // const { user } = action
+    case Actions.EDIT:
+      // const { user, id } = action
+    case Action.REMOVE:
+      // const { id } = action
+    default:
+      return state;
+  }
+};
+```
+
